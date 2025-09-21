@@ -18,7 +18,7 @@ class VendorForm
                 Select::make('type')
                     ->options([
                         'supplier' => 'Supplier',
-                        'contractor' => 'Contractor',
+                        'Contract' => 'Contract',
                         'rental' => 'Rental Company',
                         'labor' => 'Labor',
                         'other' => 'Other',

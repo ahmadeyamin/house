@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Vendors\Tables;
+namespace App\Filament\Resources\Contracts\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -8,19 +8,31 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Filament\Tables\Filters\SelectFilter;
 
-class VendorsTable
+class ContractsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
+                TextColumn::make('project.name')
+                    ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('type')
+                TextColumn::make('role')
                     ->searchable(),
-                TextColumn::make('contact_info')
+                TextColumn::make('payment_type')
+                    ->searchable(),
+                TextColumn::make('wage_rate')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('advance_paid')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('total_paid')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('contact')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -32,14 +44,7 @@ class VendorsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('type')
-                    ->options([
-                        'supplier' => 'Supplier',
-                        'Contract' => 'Contract',
-                        'rental' => 'Rental Company',
-                        'labor' => 'Labor',
-                        'other' => 'Other',
-                    ]),
+                //
             ])
             ->recordActions([
                 ViewAction::make(),

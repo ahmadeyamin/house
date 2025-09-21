@@ -20,7 +20,7 @@ class DamageResource extends Resource
 {
     protected static ?string $model = Damage::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Scissors;
 
     protected static ?string $recordTitleAttribute = 'Damage';
 

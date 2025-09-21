@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendors', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('type')->nullable(); // supplier, Contract, rental, labor
-            $table->string('contact_info')->nullable();
-            $table->text('address')->nullable();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->morphs('expenseable');
+            $table->string('description');
+            $table->decimal('amount', 15, 2);
+            $table->date('expense_date');
+            $table->string('method')->default('cash');
             $table->text('notes')->nullable();
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vendors');
+        Schema::dropIfExists('expenses');
     }
 };
