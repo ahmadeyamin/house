@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ContractsTable
@@ -15,24 +16,23 @@ class ContractsTable
     {
         return $table
             ->columns([
-                TextColumn::make('project.name')
-                    ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('role')
+                TextColumn::make('category.name')
                     ->searchable(),
-                TextColumn::make('payment_type')
+                TextColumn::make('contractor_name')
                     ->searchable(),
-                TextColumn::make('wage_rate')
+                TextColumn::make('contract_budget')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('advance_paid')
-                    ->numeric()
+                TextColumn::make('start_date')
+                    ->dateTime()
+                    ->date()
                     ->sortable(),
-                TextColumn::make('total_paid')
-                    ->numeric()
+                TextColumn::make('end_date')
+                    ->dateTime()
                     ->sortable(),
-                TextColumn::make('contact')
+                TextColumn::make('status')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -44,7 +44,8 @@ class ContractsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('category')
+                    ->relationship('category', 'name'),
             ])
             ->recordActions([
                 ViewAction::make(),

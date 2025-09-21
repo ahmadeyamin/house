@@ -16,4 +16,9 @@ class Expense extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function expensable()
+    {
+        return $this->morphTo();
+    }
 }

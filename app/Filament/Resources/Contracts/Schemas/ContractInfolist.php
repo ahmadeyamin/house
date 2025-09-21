@@ -11,21 +11,27 @@ class ContractInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('project.name')
-                    ->label('Project'),
                 TextEntry::make('name'),
-                TextEntry::make('role')
+                TextEntry::make('category.name')
                     ->placeholder('-'),
-                TextEntry::make('payment_type')
+                TextEntry::make('contractor_name')
                     ->placeholder('-'),
-                TextEntry::make('wage_rate')
+                TextEntry::make('contractor_contact')
+                    ->placeholder('-'),
+                TextEntry::make('contract_budget')
                     ->numeric()
                     ->placeholder('-'),
-                TextEntry::make('advance_paid')
-                    ->numeric(),
-                TextEntry::make('total_paid')
-                    ->numeric(),
-                TextEntry::make('contact')
+                TextEntry::make('start_date')
+                    ->dateTime()
+                    ->placeholder('-'),
+                TextEntry::make('end_date')
+                    ->dateTime()
+                    ->placeholder('-'),
+                TextEntry::make('type')
+                    ->placeholder('-'),
+                TextEntry::make('status')
+                    ->placeholder('-'),
+                TextEntry::make('description')
                     ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()

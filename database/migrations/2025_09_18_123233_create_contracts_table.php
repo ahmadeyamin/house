@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
             $table->string('contractor_name')->nullable();
             $table->string('contractor_contact')->nullable();
             $table->string('type')->index();
-            $table->string('name');
             $table->string('description')->nullable();
             $table->decimal('contract_budget', 15, 2)->nullable();
             $table->date('start_date');

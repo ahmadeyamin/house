@@ -5,6 +5,7 @@ namespace App\Models\Scopes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectScope implements Scope
 {
@@ -13,7 +14,7 @@ class ProjectScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $project = app('currentProject');
+        $project = Auth::user()->currentProject;
 
         if ($project) {
             $builder->where($model->getTable() . '.project_id', $project->id);
