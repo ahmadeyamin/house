@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('type')->nullable(); // supplier, contractor, rental, labor
             $table->string('contact_info')->nullable();

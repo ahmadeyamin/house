@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
 
             $table->morphs('model');
             $table->uuid()->nullable()->unique();

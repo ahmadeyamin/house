@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\SetCurrentProject;
+use App\Livewire\Sidebar\SelectActiveProject;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -24,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->default()
             ->id('admin')
             ->path('admin')
@@ -51,6 +54,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetCurrentProject::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
