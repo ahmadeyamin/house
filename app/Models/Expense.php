@@ -17,7 +17,12 @@ class Expense extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function expensable()
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function expenseable()
     {
         return $this->morphTo();
     }

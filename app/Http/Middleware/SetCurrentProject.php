@@ -42,7 +42,6 @@ class SetCurrentProject
         if ($project) {
             // Make it available on the user model and app container
             $user->setRelation('currentProject', $project);
-            app()->instance('currentProject', $project);
 
             session(['current_project_id' => $project->id]);
         }

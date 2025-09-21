@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->morphs('expenseable');
-            $table->string('description');
             $table->decimal('amount', 15, 2);
             $table->date('expense_date');
             $table->string('method')->default('cash');

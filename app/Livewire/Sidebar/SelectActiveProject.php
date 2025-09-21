@@ -38,7 +38,6 @@ class SelectActiveProject extends Component
 
         // Make it immediately available for the request
         $user->setRelation('currentProject', $project);
-        app()->instance('currentProject', $project);
 
         // redirect so the rest of the app picks up the new project context
         $this->js('window.location.reload()');
