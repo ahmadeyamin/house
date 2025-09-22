@@ -64,6 +64,7 @@ class Chart extends ChartWidget
                 start: $start,
                 end: $end,
             )
+            ->dateColumn('expense_date')
             ->perDay()
             ->sum('amount');
 
