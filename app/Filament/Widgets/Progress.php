@@ -19,8 +19,13 @@ class Progress extends Widget
 
         $project = Auth::user()->currentProject;
 
+        $projectEstimatedBudget = $project->estimated_budget;
         $totalExpenses = Expense::sum('amount');
 
-        return $totalExpenses / $project->estimated_budget * 100;
+        if ($projectEstimatedBudget === 0) {
+            return 0;
+        }
+
+        return ($totalExpenses / $projectEstimatedBudget) * 100;
     }
 }
