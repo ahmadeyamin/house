@@ -23,6 +23,12 @@ return new class extends Migration
             $table->string('status')->default('planned'); // planned, ongoing, completed
             $table->timestamps();
         });
+
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('current_project_id')->nullable()->constrained('projects')->nullOnDelete();
+        });
+
     }
 
     /**
@@ -31,5 +37,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('projects');
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['current_project_id']);
+            $table->dropIndex(['current_project_id']);
+            $table->dropColumn('current_project_id');
+        });
     }
 };
