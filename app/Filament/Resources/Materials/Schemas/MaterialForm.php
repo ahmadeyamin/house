@@ -14,10 +14,8 @@ class MaterialForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(2)
             ->components([
-                Select::make('project_id')
-                    ->relationship('project', 'name')
-                    ->required(),
                 TextInput::make('name')
                     ->required(),
                 Select::make('unit')
@@ -25,6 +23,7 @@ class MaterialForm
                         'kg' => 'Kilogram (kg)',
                         'bag' => 'Bag',
                         'piece' => 'Piece',
+                        'ft' => 'Foot (ft)',
                         'sqft' => 'Square Feet (sqft)',
                         'meter' => 'Meter',
                         'liter' => 'Liter',
@@ -33,24 +32,28 @@ class MaterialForm
                         'other' => 'Other',
                     ])
                     ->nullable(),
-                TextInput::make('unit_price')
+                TextInput::make('rate')
+                    ->prefix('৳')
                     ->numeric(),
-                TextInput::make('quantity_purchased')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                TextInput::make('quantity_used')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                TextInput::make('damaged_quantity')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
                 Select::make('vendor_id')
                     ->relationship('vendor', 'name')
                     ->nullable(),
-                DatePicker::make('purchase_date'),
+                TextInput::make('quantity_available')
+                    ->required()
+                    ->numeric()
+                    ->default(0)
+                    ->hiddenOn('create'),
+                TextInput::make('quantity_used')
+                    ->required()
+                    ->numeric()
+                    ->default(0)
+                    ->hiddenOn('create'),
+                TextInput::make('quantity_damaged')
+                    ->required()
+                    ->numeric()
+                    ->default(0)
+                    ->hiddenOn('create'),
+
             ]);
     }
 }

@@ -12,11 +12,14 @@ class VendorForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->components([
                 TextInput::make('name')
                     ->required(),
+                TextInput::make('contact_info'),
                 Select::make('type')
                     ->options([
+                        'shop' => 'shop',
                         'supplier' => 'Supplier',
                         'Contract' => 'Contract',
                         'rental' => 'Rental Company',
@@ -24,9 +27,6 @@ class VendorForm
                         'other' => 'Other',
                     ])
                     ->nullable(),
-                TextInput::make('contact_info'),
-                Textarea::make('address')
-                    ->columnSpanFull(),
                 Textarea::make('notes')
                     ->columnSpanFull(),
             ]);

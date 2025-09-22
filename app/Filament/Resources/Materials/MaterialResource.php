@@ -6,6 +6,8 @@ use App\Filament\Resources\Materials\Pages\CreateMaterial;
 use App\Filament\Resources\Materials\Pages\EditMaterial;
 use App\Filament\Resources\Materials\Pages\ListMaterials;
 use App\Filament\Resources\Materials\Pages\ViewMaterial;
+use App\Filament\Resources\Materials\RelationManagers\ExpensesRelationManager;
+use App\Filament\Resources\Materials\RelationManagers\TransactionsRelationManager;
 use App\Filament\Resources\Materials\Schemas\MaterialForm;
 use App\Filament\Resources\Materials\Schemas\MaterialInfolist;
 use App\Filament\Resources\Materials\Tables\MaterialsTable;
@@ -44,7 +46,8 @@ class MaterialResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ExpensesRelationManager::class,
+            TransactionsRelationManager::class,
         ];
     }
 

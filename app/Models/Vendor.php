@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vendor extends Model
 {
-
     use BelongsToProject;
 
     protected $guarded = ['id'];

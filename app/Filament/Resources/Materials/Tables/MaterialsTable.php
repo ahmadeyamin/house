@@ -7,6 +7,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
@@ -18,32 +19,25 @@ class MaterialsTable
     {
         return $table
             ->columns([
-                TextColumn::make('project.name')
-                    ->label('Project')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('unit')
+                    ->badge()
                     ->searchable(),
-                TextColumn::make('unit_price')
-                    ->numeric()
+                TextColumn::make('rate')
+                    ->money('BDT')
                     ->sortable(),
-                TextColumn::make('quantity_purchased')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('quantity_used')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('damaged_quantity')
-                    ->numeric()
+                TextColumn::make('transactions_sum_quantity')
+                    ->sum([
+                        'transactions' => function ($query) {
+                            return $query->where('type', 'in');
+                        }
+                    ], 'quantity')
+                    ->label('Total Quantity')
                     ->sortable(),
                 TextColumn::make('vendor.name')
                     ->label('Vendor')
                     ->searchable()
-                    ->sortable(),
-                TextColumn::make('purchase_date')
-                    ->date()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -72,27 +66,11 @@ class MaterialsTable
                         'other' => 'Other',
                     ]),
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                Action::make('mark_used')
-                    ->label('Mark Used')
-                    ->icon('heroicon-o-check-circle')
-                    ->requiresConfirmation()
-                    ->action(function (Model $record): void {
-                        $record->quantity_used = $record->quantity_purchased;
-                        $record->save();
-                    }),
-                Action::make('mark_damaged')
-                    ->label('Mark Damaged')
-                    ->icon('heroicon-o-exclamation-circle')
-                    ->requiresConfirmation()
-                    ->action(function (Model $record): void {
-                        $record->damaged_quantity = $record->quantity_purchased - $record->quantity_used;
-                        $record->save();
-                    }),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

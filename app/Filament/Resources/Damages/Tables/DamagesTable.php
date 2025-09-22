@@ -20,14 +20,8 @@ class DamagesTable
     {
         return $table
             ->columns([
-                TextColumn::make('project.name')
-                    ->label('Project')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('related_item_type')
+                TextColumn::make('material.name')
                     ->searchable(),
-                TextColumn::make('related_item_id')
-                    ->sortable(),
                 TextColumn::make('damage_cost')
                     ->numeric()
                     ->sortable(),
@@ -36,11 +30,9 @@ class DamagesTable
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),
+                TextColumn::make('description')
+                    ->searchable(),
                 TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -48,19 +40,6 @@ class DamagesTable
             ->filters([
                 SelectFilter::make('project_id')
                     ->relationship('project', 'name'),
-                SelectFilter::make('related_item_type')
-                    ->options([
-                        'material' => 'Material',
-                        'rental' => 'Rental Item',
-                        'other' => 'Other',
-                    ]),
-                SelectFilter::make('responsible_party')
-                    ->options([
-                        'vendor' => 'Vendor',
-                        'worker' => 'Worker',
-                        'unknown' => 'Unknown',
-                        'other' => 'Other',
-                    ]),
             ])
             ->recordActions([
                 ViewAction::make(),

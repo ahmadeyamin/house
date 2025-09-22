@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('damages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
-            $table->string('related_item_type')->nullable(); // material, rental, other
-            $table->unsignedBigInteger('related_item_id')->nullable();
+            $table->foreignId('material_id')->nullable()->constrained('materials')->nullOnDelete();
             $table->text('description')->nullable();
             $table->decimal('damage_cost', 15, 2)->nullable();
-            $table->string('responsible_party')->nullable(); // vendor, worker, unknown
+            $table->string('responsible_party')->nullable();
             $table->date('date');
             $table->timestamps();
         });

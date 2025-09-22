@@ -17,4 +17,9 @@ class Damage extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function material(): BelongsTo
+    {
+        return $this->belongsTo(Material::class);
+    }
 }

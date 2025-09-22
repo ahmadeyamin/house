@@ -14,14 +14,13 @@ return new class extends Migration
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('vendor_id')->nullable()->constrained('vendors')->cascadeOnDelete();
             $table->string('name'); // cement, rod, sand, paint, etc.
             $table->string('unit')->nullable(); // kg, bag, piece, sqft
-            $table->decimal('unit_price', 15, 2)->nullable();
-            $table->integer('quantity_purchased')->default(0);
+            $table->decimal('rate', 15, 2)->nullable();
+            $table->integer('quantity_available')->default(0);
             $table->integer('quantity_used')->default(0);
-            $table->integer('damaged_quantity')->default(0);
-            $table->foreignId('vendor_id')->nullable()->constrained('vendors')->cascadeOnDelete();
-            $table->date('purchase_date')->nullable();
+            $table->integer('quantity_damaged')->default(0);
             $table->timestamps();
         });
     }

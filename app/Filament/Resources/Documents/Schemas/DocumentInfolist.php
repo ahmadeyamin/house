@@ -14,18 +14,11 @@ class DocumentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('project.name')
-                    ->label('Project'),
                 SpatieMediaLibraryFileUpload::make('media')
                     ->collection('documents'),
-                TextEntry::make('type')
+                TextEntry::make('description')
                     ->placeholder('-'),
-                TextEntry::make('uploaded_at')
-                    ->dateTime(),
                 TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
             ]);

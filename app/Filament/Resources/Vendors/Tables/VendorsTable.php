@@ -19,7 +19,8 @@ class VendorsTable
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('type')
-                    ->searchable(),
+                    ->searchable()
+                    ->badge(),
                 TextColumn::make('contact_info')
                     ->searchable(),
                 TextColumn::make('created_at')

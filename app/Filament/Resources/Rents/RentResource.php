@@ -6,6 +6,7 @@ use App\Filament\Resources\Rents\Pages\CreateRent;
 use App\Filament\Resources\Rents\Pages\EditRent;
 use App\Filament\Resources\Rents\Pages\ListRents;
 use App\Filament\Resources\Rents\Pages\ViewRent;
+use App\Filament\Resources\Rents\RelationManagers\ExpensesRelationManager;
 use App\Filament\Resources\Rents\Schemas\RentForm;
 use App\Filament\Resources\Rents\Schemas\RentInfolist;
 use App\Filament\Resources\Rents\Tables\RentsTable;
@@ -44,7 +45,7 @@ class RentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ExpensesRelationManager::class,
         ];
     }
 

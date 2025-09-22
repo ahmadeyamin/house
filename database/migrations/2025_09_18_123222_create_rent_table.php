@@ -19,8 +19,9 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->decimal('rate', 15, 2)->nullable();
-            $table->enum('billing_cycle', ['daily', 'weekly', 'monthly', 'usage'])->nullable();
+            $table->enum('billing_cycle', ['daily', 'weekly', 'monthly', 'usage', 'fixed'])->nullable();
             $table->decimal('total_cost', 15, 2)->nullable();
+            $table->text('details')->nullable();
             $table->enum('status', ['active', 'returned'])->default('active');
             $table->timestamps();
         });

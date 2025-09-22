@@ -6,6 +6,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use App\Models\Project;
 use App\Models\Vendor;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class MaterialInfolist
 {
@@ -18,20 +19,21 @@ class MaterialInfolist
                 TextEntry::make('name'),
                 TextEntry::make('unit')
                     ->placeholder('-'),
-                TextEntry::make('unit_price')
+                TextEntry::make('rate')
                     ->numeric()
+                    ->money('BDT')
                     ->placeholder('-'),
-                TextEntry::make('quantity_purchased')
-                    ->numeric(),
-                TextEntry::make('quantity_used')
-                    ->numeric(),
-                TextEntry::make('damaged_quantity')
+            
+                TextEntry::make('transactions_sum_quantity')
+                    ->label('Total Quantity Used')
+                    ->sum([
+                        'transactions' => function ($query) {
+                            return $query->where('type', 'out');
+                        }
+                    ],'quantity')
                     ->numeric(),
                 TextEntry::make('vendor.name')
                     ->label('Vendor')
-                    ->placeholder('-'),
-                TextEntry::make('purchase_date')
-                    ->date()
                     ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()
@@ -39,6 +41,14 @@ class MaterialInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
+
+                Stat::make('Total Material Cost', number_format($schema->getRecord()->transactions->where('type', 'in')->sum('total'),2) . ' BDT'),
+                Stat::make('Total Material Quantity', number_format($schema->getRecord()->transactions->where('type', 'in')->sum('quantity'),2) . ' ' . $schema->getRecord()->unit),
+
+
+
+                Stat::make('Total Expense', number_format($schema->getRecord()->expenses->sum('amount'),2) . ' BDT'),
+                Stat::make('Total Count', $schema->getRecord()->expenses->count()),
             ]);
     }
 }

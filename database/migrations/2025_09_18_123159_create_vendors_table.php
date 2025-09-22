@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('type')->nullable(); // supplier, Contract, rental, labor
             $table->string('contact_info')->nullable();
-            $table->text('address')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

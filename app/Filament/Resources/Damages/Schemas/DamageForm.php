@@ -17,54 +17,21 @@ class DamageForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->components([
-                Select::make('project_id')
-                    ->relationship('project', 'name')
+                Select::make('material_id')
+                    ->relationship('material', 'name')
+                    ->required(),
+                TextInput::make('damage_cost')
+                    ->numeric()
+                    ->prefix('৳')
+                    ->required(),
+                DatePicker::make('date')
+                    ->default(now())
                     ->required()
-                    ->live(),
-                Select::make('related_item_type')
-                    ->options([
-                        'material' => 'Material',
-                        'rental' => 'Rental Item',
-                        'other' => 'Other',
-                    ])
-                    ->nullable()
-                    ->live(),
-                Select::make('related_item_id')
-                    ->label('Related Item')
-                    ->options(function (callable $get) {
-                        $type = $get('related_item_type');
-                        $projectId = $get('project_id');
-
-                        if (!$type || !$projectId) {
-                            return [];
-                        }
-
-                        if ($type === 'material') {
-                            return Material::where('project_id', $projectId)->pluck('name', 'id');
-                        }
-
-                        if ($type === 'rental') {
-                            return RentalItem::where('project_id', $projectId)->pluck('item_name', 'id');
-                        }
-
-                        return [];
-                    })
-                    ->nullable(),
+                    ->columns(1),
                 Textarea::make('description')
                     ->columnSpanFull(),
-                TextInput::make('damage_cost')
-                    ->numeric(),
-                Select::make('responsible_party')
-                    ->options([
-                        'vendor' => 'Vendor',
-                        'worker' => 'Worker',
-                        'unknown' => 'Unknown',
-                        'other' => 'Other',
-                    ])
-                    ->nullable(),
-                DatePicker::make('date')
-                    ->required(),
             ]);
     }
 }

@@ -22,4 +22,14 @@ class Material extends Model
     {
         return $this->belongsTo(Vendor::class);
     }
+
+    public function expenses()
+    {
+        return $this->morphMany(Expense::class, 'expenseable');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(MaterialTransaction::class);
+    }
 }

@@ -13,7 +13,7 @@ trait BelongsToProject
 
         static::creating(function ($model) {
 
-            $project = Auth::user()->currentProject;
+            $project = Auth::user()?->currentProject;
 
             if ($project) {
                 $model->project_id = $project->id;
