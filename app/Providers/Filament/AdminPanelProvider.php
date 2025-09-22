@@ -33,6 +33,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->renderHook(
+                'panels::head.end',
+                fn (): string => '<link rel="manifest" href="' . asset('manifest.json') . '">'
+            )
             ->resourceEditPageRedirect('index')
             ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)
             ->colors([

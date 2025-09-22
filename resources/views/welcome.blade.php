@@ -10,6 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 
+    <link rel="manifest" href="{{asset('manifest.json')}}">
+
+    <meta name="theme-color" content="#FACC15">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HomeCost">
+    <link rel="apple-touch-icon" href="{{asset('icon.png')}}">
+
     <style>
         /* CSS Variables for easy theme management */
         :root {

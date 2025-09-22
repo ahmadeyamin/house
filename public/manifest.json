@@ -1,0 +1,17 @@
+{
+    "name": "HomeCost",
+    "short_name": "HomeCost",
+    "theme_color": "#FACC15",
+    "background_color": "#FACC15",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/admin",
+    "start_url": "/admin",
+    "icons": [
+      {
+        "src": "/icon.png",
+        "sizes": "1024x1024",
+        "type": "image/png"
+      }
+    ]
+  }
