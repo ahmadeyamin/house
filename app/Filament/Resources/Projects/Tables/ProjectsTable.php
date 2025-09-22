@@ -21,12 +21,14 @@ class ProjectsTable
                     ->searchable(),
                 TextColumn::make('estimated_budget')
                     ->numeric()
+                    ->money('BDT')
                     ->sortable(),
                 TextColumn::make('start_date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('end_date')
                     ->date()
+                    ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('status')
                     ->searchable(),

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Materials\Tables;
 
+use App\Models\Material;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -54,17 +55,7 @@ class MaterialsTable
                 SelectFilter::make('vendor_id')
                     ->relationship('vendor', 'name'),
                 SelectFilter::make('unit')
-                    ->options([
-                        'kg' => 'Kilogram (kg)',
-                        'bag' => 'Bag',
-                        'piece' => 'Piece',
-                        'sqft' => 'Square Feet (sqft)',
-                        'meter' => 'Meter',
-                        'liter' => 'Liter',
-                        'gallon' => 'Gallon',
-                        'unit' => 'Unit',
-                        'other' => 'Other',
-                    ]),
+                    ->options(Material::UNITS),
             ])
             ->recordActions([
                 ViewAction::make(),

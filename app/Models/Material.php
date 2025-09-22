@@ -13,6 +13,20 @@ class Material extends Model
 
     protected $guarded = ['id'];
 
+    CONST UNITS = [
+        'kg' => 'Kilogram (kg)',
+        'ton' => 'Ton',
+        'bag' => 'Bag',
+        'piece' => 'Piece',
+        'ft' => 'Foot (ft)',
+        'sqft' => 'Square Feet (sqft)',
+        'meter' => 'Meter',
+        'liter' => 'Liter',
+        'gallon' => 'Gallon',
+        'unit' => 'Unit',
+        'other' => 'Other',
+    ];
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);

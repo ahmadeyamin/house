@@ -16,6 +16,7 @@ class ProjectInfolist
                     ->placeholder('-'),
                 TextEntry::make('estimated_budget')
                     ->numeric()
+                    ->money('BDT')
                     ->placeholder('-'),
                 TextEntry::make('start_date')
                     ->date()

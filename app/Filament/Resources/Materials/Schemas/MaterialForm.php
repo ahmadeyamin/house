@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Materials\Schemas;
 
+use App\Models\Material;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -19,18 +20,7 @@ class MaterialForm
                 TextInput::make('name')
                     ->required(),
                 Select::make('unit')
-                    ->options([
-                        'kg' => 'Kilogram (kg)',
-                        'bag' => 'Bag',
-                        'piece' => 'Piece',
-                        'ft' => 'Foot (ft)',
-                        'sqft' => 'Square Feet (sqft)',
-                        'meter' => 'Meter',
-                        'liter' => 'Liter',
-                        'gallon' => 'Gallon',
-                        'unit' => 'Unit',
-                        'other' => 'Other',
-                    ])
+                    ->options(Material::UNITS)
                     ->nullable(),
                 TextInput::make('rate')
                     ->prefix('৳')
