@@ -35,6 +35,7 @@ class MaterialsTable
                         }
                     ], 'quantity')
                     ->label('Total Quantity')
+                    ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('vendor.name')
                     ->label('Vendor')

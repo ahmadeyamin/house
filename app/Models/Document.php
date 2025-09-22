@@ -14,11 +14,8 @@ class Document extends Model implements HasMedia
 
     use BelongsToProject;
 
-    protected $fillable = [
-        'project_id',
-        'file_path',
-        'type',
-        'uploaded_at',
+    protected $guarded = [
+        'id',
     ];
 
     public function project(): BelongsTo

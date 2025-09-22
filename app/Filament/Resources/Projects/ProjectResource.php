@@ -20,6 +20,8 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
+    protected static ?int $navigationSort = 99;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Square2Stack;
 
     protected static ?string $recordTitleAttribute = 'Project';
