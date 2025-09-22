@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Traits\BelongsToProject;
 use Illuminate\Database\Eloquent\Model;
 
-class materialTransaction extends Model
+class MaterialTransaction extends Model
 {
 
       use BelongsToProject;
