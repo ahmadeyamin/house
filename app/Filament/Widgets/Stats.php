@@ -25,15 +25,15 @@ class Stats extends StatsOverviewWidget
 
 
         return [
-            Stat::make('Project Budget', Number::currency($project->estimated_budget))
+            Stat::make('Project Budget', Number::currency($project->estimated_budget ?? 0))
                 ->description('Total project maximum budget')
                 ->icon(Heroicon::CurrencyDollar),
 
-            Stat::make('Total Expenses', Number::currency(Expense::sum('amount')))
+            Stat::make('Total Expenses', Number::currency(Expense::sum('amount') ?? 0))
                 ->description('Total expenses')
                 ->icon(Heroicon::DocumentCurrencyDollar),
             Stat::make('Today Expenses', function () use ($today) {
-                return Number::currency(Expense::where('expense_date', $today)->sum('amount'));
+                return Number::currency(Expense::where('expense_date', $today)->sum('amount') ?? 0);
             })
                 ->description('Today expenses')
                 ->icon(Heroicon::CalendarDays),
