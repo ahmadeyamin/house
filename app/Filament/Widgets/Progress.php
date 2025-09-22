@@ -22,10 +22,6 @@ class Progress extends Widget
         $projectEstimatedBudget = $project->estimated_budget;
         $totalExpenses = Expense::sum('amount');
 
-        if ($projectEstimatedBudget === 0) {
-            return 0;
-        }
-
-        return ($totalExpenses / $projectEstimatedBudget) * 100;
+        return $projectEstimatedBudget > 0 ? ($totalExpenses / $projectEstimatedBudget) * 100 : 0;
     }
 }
