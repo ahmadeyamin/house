@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Expenses\Tables;
 
 use App\Models\Contract;
+use App\Models\DailyReport;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -14,6 +15,7 @@ use App\Models\Material;
 use App\Models\Vendor;
 use App\Models\Project;
 use App\Models\Rent;
+use Filament\Actions\DeleteAction;
 
 class ExpensesTable
 {
@@ -21,20 +23,23 @@ class ExpensesTable
     {
         return $table
             ->columns([
-                TextColumn::make('expenseable.name')
-                    ->label('Expenseable'),
+                TextColumn::make('expenseable.id')
+                    ->label('Expenseable ID'),
+
                 TextColumn::make('expenseable_type')
                     ->badge()
                     ->formatStateUsing(fn ($state) => match ($state) {
                         Material::class => 'Material',
                         Contract::class => 'Contract',
                         Rent::class => 'Rent',
+                        DailyReport::class => 'Daily Report',
                         default => $state,
                     })
                     ->color(fn ($state) => match ($state) {
                         Material::class => 'success',
                         Contract::class => 'warning',
                         Rent::class => 'primary',
+                        DailyReport::class => 'primary',
                         default => 'primary',
                     })
                     ->label('Type'),
@@ -43,8 +48,6 @@ class ExpensesTable
                 TextColumn::make('amount')
                     ->money('BDT')
                     ->label('Amount'),
-                TextColumn::make('method')
-                    ->label('Method'),
                 TextColumn::make('notes')
                     ->label('Note')
                     ->placeholder('-'),

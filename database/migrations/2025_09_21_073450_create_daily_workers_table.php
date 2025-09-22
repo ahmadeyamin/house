@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('daily_workers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('daily_report_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+
+            $table->date('date');
+
+            $table->integer('worker_count');
+            $table->text('notes')->nullable();
+            $table->decimal('hours_worked')->nullable();
+            $table->decimal('total_cost')->nullable();
+
+
             $table->timestamps();
         });
     }

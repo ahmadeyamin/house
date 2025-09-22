@@ -16,4 +16,14 @@ class DailyWorker extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function dailyReport(): BelongsTo
+    {
+        return $this->belongsTo(DailyReport::class);
+    }
 }

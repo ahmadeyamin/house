@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('daily_reports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+            $table->date('date');
+            $table->string('weather')->nullable();
+            $table->text('progress_notes')->nullable();
+            $table->text('issues_notes')->nullable();
             $table->timestamps();
         });
     }
