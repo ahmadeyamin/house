@@ -39,9 +39,17 @@ class ContractsTable
                     ->sortable(),
                 TextColumn::make('end_date')
                     ->dateTime()
+                    ->date()
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'pending' => 'danger',
+                        'active' => 'warning',
+                        'completed' => 'success',
+                        'cancelled' => 'danger',
+                        default => 'primary',
+                    })
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
