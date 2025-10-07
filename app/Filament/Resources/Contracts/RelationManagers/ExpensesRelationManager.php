@@ -74,6 +74,7 @@ class ExpensesRelationManager extends RelationManager
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('expense_date', 'desc')
             ->filters([
                 //
             ])
