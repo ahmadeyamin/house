@@ -15,8 +15,6 @@ class DailyReportsTable
     {
         return $table
             ->columns([
-                TextColumn::make('project.name')
-                    ->searchable(),
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),
@@ -26,14 +24,18 @@ class DailyReportsTable
                 TextColumn::make('daily_workers_sum_worker_count')
                     ->label('Total Workers')
                     ->sum('dailyWorkers', 'worker_count')
+                    ->default(0)
                     ->sortable(),
                 TextColumn::make('expenses_sum_amount')
                     ->label('Total Expenses')
                     ->sum('expenses', 'amount')
                     ->money('BDT')
+                    ->default(0)
                     ->sortable(),
 
 
+                TextColumn::make('progress_notes')
+                    ->searchable(),
 
                 TextColumn::make('created_at')
                     ->dateTime()

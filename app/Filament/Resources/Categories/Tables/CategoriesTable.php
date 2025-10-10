@@ -17,6 +17,13 @@ class CategoriesTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
+
+                TextColumn::make('expenses_sum_amount')
+                    ->label('Total Expenses')
+                    ->sum('expenses', 'amount')
+                    ->money('BDT')
+                    ->default(0)
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
