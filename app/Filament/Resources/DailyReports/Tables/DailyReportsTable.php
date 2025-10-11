@@ -17,6 +17,7 @@ class DailyReportsTable
             ->columns([
                 TextColumn::make('date')
                     ->date()
+                    ->label('Report Date')
                     ->sortable(),
                 TextColumn::make('weather')
                     ->searchable(),

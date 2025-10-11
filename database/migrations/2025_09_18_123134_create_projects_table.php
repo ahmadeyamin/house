@@ -38,6 +38,11 @@ return new class extends Migration
     {
         Schema::dropIfExists('projects');
 
+        if (Schema::getConnection()->getDriverName() === 'sqlite') {
+            // Skip rollback for SQLite because altering tables is limited
+            return;
+        }
+
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['current_project_id']);
             $table->dropIndex(['current_project_id']);

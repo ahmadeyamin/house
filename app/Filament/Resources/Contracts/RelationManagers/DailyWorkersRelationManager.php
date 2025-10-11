@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\DailyReports\RelationManagers;
+namespace App\Filament\Resources\Contracts\RelationManagers;
 
+use App\Filament\Resources\DailyReports\DailyReportResource;
+use App\Models\Contract;
 use Filament\Actions\AssociateAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -35,9 +37,6 @@ class DailyWorkersRelationManager extends RelationManager
                     ->relationship('category', 'name')
                     ->required(),
 
-                Select::make('contract_id')
-                    ->relationship('contract', 'name'),
-
                 DatePicker::make('date')
                     ->required()
                     ->default(now()),
@@ -51,7 +50,8 @@ class DailyWorkersRelationManager extends RelationManager
                     ->numeric(),
 
                 TextInput::make('total_cost')
-                    ->numeric(),
+                    ->numeric()
+                    ->columnSpanFull(),
                 Textarea::make('notes')
                     ->columnSpanFull(),
             ]);
@@ -86,12 +86,11 @@ class DailyWorkersRelationManager extends RelationManager
             ->recordTitleAttribute('id')
             ->columns([
                 TextColumn::make('date')
+                    ->label('Report date')
+                    ->url(fn ($record) => DailyReportResource::getUrl('view', ['record' => $record->dailyReport]))
                     ->date()
                     ->sortable(),
-                TextColumn::make('contract.name')
-                    ->label('Contract')
-                    ->sortable()
-                    ->default('-'),
+
                 TextColumn::make('worker_count')
                     ->numeric()
                     ->sortable(),
@@ -107,8 +106,7 @@ class DailyWorkersRelationManager extends RelationManager
                     ->default(0),
                 TextColumn::make('notes')
                     ->sortable()
-                    ->default('-')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->default('-'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -118,7 +116,7 @@ class DailyWorkersRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
+                // CreateAction::make(),
             ])
             ->recordActions([
                 ViewAction::make(),

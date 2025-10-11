@@ -17,6 +17,11 @@ class DailyWorker extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function contract(): BelongsTo
+    {
+        return $this->belongsTo(Contract::class, 'contract_id');
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

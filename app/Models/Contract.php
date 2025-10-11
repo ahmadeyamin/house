@@ -37,6 +37,12 @@ class Contract extends Model
         return $this->morphMany(Expense::class, 'expenseable');
     }
 
+
+    public function dailyWorkers()
+    {
+        return $this->hasMany(DailyWorker::class);
+    }
+
     // public function getExpensesSumAttribute(): float
     // {
     //     return $this->expenses()->sum('amount');
