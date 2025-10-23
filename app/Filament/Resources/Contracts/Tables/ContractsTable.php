@@ -60,6 +60,7 @@ class ContractsTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 SelectFilter::make('category')
                     ->relationship('category', 'name'),

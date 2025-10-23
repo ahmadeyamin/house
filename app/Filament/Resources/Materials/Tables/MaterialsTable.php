@@ -50,6 +50,7 @@ class MaterialsTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 SelectFilter::make('project_id')
                     ->relationship('project', 'name'),
