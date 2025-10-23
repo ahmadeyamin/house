@@ -27,6 +27,7 @@ class MaterialsTable
                     ->searchable(),
                 TextColumn::make('rate')
                     ->money('BDT')
+                    ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('transactions_sum_quantity')
                     ->sum([
@@ -40,6 +41,7 @@ class MaterialsTable
                 TextColumn::make('vendor.name')
                     ->label('Vendor')
                     ->searchable()
+                    ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

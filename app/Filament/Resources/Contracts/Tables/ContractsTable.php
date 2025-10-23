@@ -23,11 +23,13 @@ class ContractsTable
                 TextColumn::make('category.name')
                     ->searchable(),
                 TextColumn::make('contractor_name')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 TextColumn::make('expenses_sum_amount')
                     ->label('Total Expenses')
                     ->sum('expenses', 'amount')
                     ->money('BDT')
+                    ->default(0)
                     ->sortable(),
                 TextColumn::make('contract_budget')
                     ->numeric()
@@ -40,7 +42,8 @@ class ContractsTable
                 TextColumn::make('end_date')
                     ->dateTime()
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn ($state) => match ($state) {

@@ -15,6 +15,10 @@ class DailyReportsTable
     {
         return $table
             ->columns([
+
+                TextColumn::make('id')
+                    ->sortable(),
+
                 TextColumn::make('date')
                     ->date()
                     ->label('Report Date')
@@ -23,7 +27,7 @@ class DailyReportsTable
                     ->searchable(),
 
                 TextColumn::make('daily_workers_sum_worker_count')
-                    ->label('Total Workers')
+                    ->label('Workers')
                     ->sum('dailyWorkers', 'worker_count')
                     ->default(0)
                     ->sortable(),

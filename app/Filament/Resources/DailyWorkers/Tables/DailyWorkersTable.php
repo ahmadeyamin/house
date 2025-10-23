@@ -30,6 +30,7 @@ class DailyWorkersTable
                     ->searchable(),
                 TextColumn::make('date')
                     ->date()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 TextColumn::make('worker_count')
                     ->numeric()
@@ -37,6 +38,7 @@ class DailyWorkersTable
                 TextColumn::make('hours_worked')
                     ->numeric()
                     ->default('-')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 TextColumn::make('total_cost')
                     ->numeric()
