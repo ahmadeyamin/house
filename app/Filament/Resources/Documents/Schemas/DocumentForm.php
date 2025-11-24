@@ -19,7 +19,6 @@ class DocumentForm
                     ->required()
                     ->columnSpanFull(),
                 Textarea::make('description')
-                    ->required()
                     ->columnSpanFull(),
             ]);
     }

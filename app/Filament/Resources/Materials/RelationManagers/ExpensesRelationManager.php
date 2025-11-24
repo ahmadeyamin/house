@@ -68,6 +68,7 @@ class ExpensesRelationManager extends RelationManager
                 TextEntry::make('amount')
                     ->numeric(),
                 TextEntry::make('expense_date')
+                    ->label('Date')
                     ->date(),
                 TextEntry::make('method'),
                 TextEntry::make('notes')
@@ -91,7 +92,7 @@ class ExpensesRelationManager extends RelationManager
                 TextColumn::make('amount')
                     ->money('bdt') // change currency
                     ->label('Amount'),
-                TextColumn::make('expense_date')->label('Expense Date'),
+                TextColumn::make('expense_date')->date()->label('Expense Date'),
                 TextColumn::make('method')->label('Payment Method'),
                 TextColumn::make('notes')->label('Notes'),
                 TextColumn::make('created_at')
@@ -103,6 +104,7 @@ class ExpensesRelationManager extends RelationManager
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

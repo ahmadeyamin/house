@@ -150,6 +150,7 @@ class TransactionsRelationManager extends RelationManager
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),
+                TextColumn::make('notes')->label('Notes'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -159,6 +160,7 @@ class TransactionsRelationManager extends RelationManager
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

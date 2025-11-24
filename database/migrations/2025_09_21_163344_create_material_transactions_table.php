@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->foreignId('material_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity');
-            $table->integer('rate')->nullable();
-            $table->integer('total')->nullable();
+            $table->decimal('rate', 8, 2)->nullable();
+            $table->decimal('total', 10, 2)->nullable();
             $table->enum('type',['in','out']);
             $table->date('date');
             $table->text('notes')->nullable();
