@@ -44,7 +44,21 @@ class ExpensesTable
                             default => '#' . $target->id,
                         };
                     })
-                    ->description(fn(Model $record) => 'ID: ' . $record->expenseable_id), // Optional: Show ID below name
+                    ->url(function (Model $record) {
+                        $target = $record->expenseable;
+                        if (! $target) {
+                            return null;
+                        }
+
+                        return match (get_class($target)) {
+                            Material::class => route('filament.admin.resources.materials.view', $target),
+                            Contract::class => route('filament.admin.resources.contracts.view', $target),
+                            Rent::class => route('filament.admin.resources.rents.view', $target),
+                            DailyReport::class => route('filament.admin.resources.daily-reports.view', $target),
+                            default => null,
+                        };
+                    })
+                    ->description(fn(Model $record) =>  class_basename($record->expenseable_type)), // Optional: Show ID below name
                 TextColumn::make('category.name')
                     ->label('Category'),
                 TextColumn::make('amount')
@@ -53,8 +67,11 @@ class ExpensesTable
                 TextColumn::make('notes')
                     ->label('Note')
                     ->placeholder('-'),
-                TextColumn::make('created_at')
-                    ->dateTime('Y-m-d | h:i A')
+                TextColumn::make('expense_date')
+                    ->date()
+                    ->description(function (Model $record) {
+                        return "at ".$record->created_at->format('M d, y | h:i A');
+                    })
                     ->label('Date'),
             ])
             ->defaultSort('id', 'desc')
