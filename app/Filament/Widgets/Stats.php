@@ -21,7 +21,7 @@ class Stats extends StatsOverviewWidget
 
         $today = now()->toDateString();
 
-        $dailyReports = DailyReport::where('project_id', $project->id)->where('date', $today)->first();
+        $dailyReports = DailyReport::where('project_id', $project->id)->where('date', $today)->get();
 
 
         return [
@@ -38,7 +38,7 @@ class Stats extends StatsOverviewWidget
                 ->description('Today expenses')
                 ->icon(Heroicon::CalendarDays),
             Stat::make('Total Workers', function () use ($dailyReports) {
-                return $dailyReports ? $dailyReports->dailyWorkers->sum('worker_count') : 0;
+                return $dailyReports ? $dailyReports->flatMap->dailyWorkers->sum('worker_count') : 0;
             })
                 ->description('Total workers')
                 ->icon(Heroicon::UserGroup),

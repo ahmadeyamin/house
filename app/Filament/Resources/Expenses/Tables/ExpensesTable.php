@@ -23,26 +23,28 @@ class ExpensesTable
     {
         return $table
             ->columns([
-                TextColumn::make('expenseable.id')
-                    ->label('Expenseable ID'),
 
-                TextColumn::make('expenseable_type')
-                    ->badge()
-                    ->formatStateUsing(fn ($state) => match ($state) {
-                        Material::class => 'Material',
-                        Contract::class => 'Contract',
-                        Rent::class => 'Rent',
-                        DailyReport::class => 'Daily Report',
-                        default => $state,
+                TextColumn::make('expenseable_reference')
+                    ->label('Reference')
+                    ->getStateUsing(function (Model $record) {
+                        // Get the related model
+                        $target = $record->expenseable;
+
+                        // Check if relationship exists
+                        if (! $target) {
+                            return null;
+                        }
+
+                        // Return specific field based on Model Class
+                        return match (get_class($target)) {
+                            Material::class => $target->name,        // Assumes Material has 'name'
+                            Contract::class => $target->name,       // Assumes Contract has 'title'
+                            Rent::class => '' . $target->name, // Assumes Rent has 'month'
+                            DailyReport::class => "Report" . $target->date,     // Assumes DailyReport has 'date'
+                            default => '#' . $target->id,
+                        };
                     })
-                    ->color(fn ($state) => match ($state) {
-                        Material::class => 'success',
-                        Contract::class => 'warning',
-                        Rent::class => 'primary',
-                        DailyReport::class => 'primary',
-                        default => 'primary',
-                    })
-                    ->label('Type'),
+                    ->description(fn(Model $record) => 'ID: ' . $record->expenseable_id), // Optional: Show ID below name
                 TextColumn::make('category.name')
                     ->label('Category'),
                 TextColumn::make('amount')

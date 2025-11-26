@@ -35,8 +35,15 @@ class MaterialsTable
                             return $query->where('type', 'in');
                         }
                     ], 'quantity')
-                    ->label('Total Quantity')
+                    ->label('Quantity')
                     ->numeric()
+                    ->placeholder('-')
+                    ->sortable(),
+                TextColumn::make('expenses_sum_amount')
+                    ->sum('expenses', 'amount')
+                    ->label('Total Cost')
+                    ->numeric()
+                    ->money('BDT')
                     ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('vendor.name')
