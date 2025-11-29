@@ -6,11 +6,14 @@ use App\Models\Expense;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
+use Illuminate\Support\Carbon;
 
 class Chart extends ChartWidget
 {
 
     protected static ?int $sort = 4;
+
+    protected static ?string $minHeight = '350px';
 
     protected ?string $pollingInterval = null;
 
@@ -23,7 +26,7 @@ class Chart extends ChartWidget
         return 'Expenses chart for the selected filter';
     }
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
 
     protected function getFilters(): ?array
@@ -75,12 +78,31 @@ class Chart extends ChartWidget
                     'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
                 ],
             ],
-            'labels' => $data->map(fn(TrendValue $value) => $value->date),
+            'labels' => $data->map(fn(TrendValue $value) => Carbon::parse($value->date)->format('M d, y')),
         ];
     }
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'line';
+    }
+
+    protected function getOptions(): array
+    {
+        return [
+            'plugins' => [
+                'legend' => [
+                    'display' => true,
+                ],
+            ],
+            'elements' => [
+                'line' => [
+                    'tension' => 0.4,
+                ],
+                'point' => [
+                    'borderRadius' => 5,
+                ],
+            ],
+        ];
     }
 }
