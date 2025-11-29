@@ -4,18 +4,22 @@ namespace App\Filament\Resources\Expenses\Tables;
 
 use App\Models\Contract;
 use App\Models\DailyReport;
+use App\Models\Material;
+use App\Models\Project;
+use App\Models\Rent;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Material;
-use App\Models\Vendor;
-use App\Models\Project;
-use App\Models\Rent;
-use Filament\Actions\DeleteAction;
 
 class ExpensesTable
 {
@@ -60,23 +64,53 @@ class ExpensesTable
                     })
                     ->description(fn(Model $record) =>  class_basename($record->expenseable_type)), // Optional: Show ID below name
                 TextColumn::make('category.name')
-                    ->label('Category'),
+                    ->label('Category')
+                    ->searchable(),
                 TextColumn::make('amount')
                     ->money('BDT')
-                    ->label('Amount'),
+                    ->label('Amount')
+                    ->summarize(Sum::make()->money('BDT')),
                 TextColumn::make('notes')
                     ->label('Note')
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->searchable(),
                 TextColumn::make('expense_date')
                     ->date()
                     ->description(function (Model $record) {
                         return "at ".$record->created_at->format('M d, y | h:i A');
                     })
-                    ->label('Date'),
+                    ->label('Date')
+                    ->sortable(),
             ])
             ->defaultSort('id', 'desc')
+            ->defaultPaginationPageOption(50)
             ->filters([
-                //
+                Filter::make('expense_date')
+                    ->form([
+                        DatePicker::make('created_from'),
+                        DatePicker::make('created_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('expense_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('expense_date', '<=', $date),
+                            );
+                    }),
+                SelectFilter::make('category')
+                    ->relationship('category', 'name'),
+                SelectFilter::make('expenseable_type')
+                    ->label('Type')
+                    ->options([
+                        Material::class => 'Material',
+                        Contract::class => 'Contract',
+                        Rent::class => 'Rent',
+                        DailyReport::class => 'Daily Report',
+                    ]),
             ])
             ->recordActions([
                 ViewAction::make(),
