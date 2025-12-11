@@ -35,7 +35,7 @@ class ExpensesTable
                         $target = $record->expenseable;
 
                         // Check if relationship exists
-                        if (! $target) {
+                        if (!$target) {
                             return null;
                         }
 
@@ -50,7 +50,7 @@ class ExpensesTable
                     })
                     ->url(function (Model $record) {
                         $target = $record->expenseable;
-                        if (! $target) {
+                        if (!$target) {
                             return null;
                         }
 
@@ -62,7 +62,7 @@ class ExpensesTable
                             default => null,
                         };
                     })
-                    ->description(fn(Model $record) =>  class_basename($record->expenseable_type)), // Optional: Show ID below name
+                    ->description(fn(Model $record) => class_basename($record->expenseable_type)), // Optional: Show ID below name
                 TextColumn::make('category.name')
                     ->label('Category')
                     ->searchable(),
@@ -77,13 +77,13 @@ class ExpensesTable
                 TextColumn::make('expense_date')
                     ->date()
                     ->description(function (Model $record) {
-                        return "at ".$record->created_at->format('M d, y | h:i A');
+                        return "at " . $record->created_at->format('M d, y | h:i A');
                     })
                     ->label('Date')
                     ->sortable(),
             ])
             ->defaultSort('id', 'desc')
-            ->defaultPaginationPageOption(50)
+            ->defaultPaginationPageOption(20)
             ->filters([
                 Filter::make('expense_date')
                     ->form([
@@ -94,11 +94,11 @@ class ExpensesTable
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('expense_date', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('expense_date', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('expense_date', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('expense_date', '<=', $date),
                             );
                     }),
                 SelectFilter::make('category')

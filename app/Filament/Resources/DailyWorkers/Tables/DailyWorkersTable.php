@@ -8,6 +8,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -20,13 +21,13 @@ class DailyWorkersTable
             ->columns([
                 TextColumn::make('dailyReport.date')
                     ->date()
-                    ->url(fn (DailyWorker $record) => route('filament.admin.resources.daily-reports.view', $record->daily_report_id))
+                    ->url(fn(DailyWorker $record) => route('filament.admin.resources.daily-reports.view', $record->daily_report_id))
                     ->label('Report date')
                     ->sortable(),
                 TextColumn::make('category.name')
                     ->searchable(),
                 TextColumn::make('contract.name')
-                    ->url(fn (DailyWorker $record) => route('filament.admin.resources.contracts.view', $record->contract_id))
+                    ->url(fn(DailyWorker $record) => route('filament.admin.resources.contracts.view', $record->contract_id))
                     ->searchable(),
                 TextColumn::make('date')
                     ->date()
@@ -34,7 +35,8 @@ class DailyWorkersTable
                     ->sortable(),
                 TextColumn::make('worker_count')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total')),
                 TextColumn::make('hours_worked')
                     ->numeric()
                     ->default('-')
