@@ -8,6 +8,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Count;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -32,6 +33,7 @@ class DailyWorkersTable
                 TextColumn::make('date')
                     ->date()
                     ->toggleable(isToggledHiddenByDefault: true)
+                    // ->summarize(Count::make('date')->label('Count'))
                     ->sortable(),
                 TextColumn::make('worker_count')
                     ->numeric()

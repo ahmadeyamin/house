@@ -20,6 +20,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\Summarizers\Count;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -93,6 +95,7 @@ class DailyWorkersRelationManager extends RelationManager
 
                 TextColumn::make('worker_count')
                     ->numeric()
+                    ->summarize(Count::make()->label('Total Days'))
                     ->sortable(),
                 TextColumn::make('hours_worked')
                     ->numeric()

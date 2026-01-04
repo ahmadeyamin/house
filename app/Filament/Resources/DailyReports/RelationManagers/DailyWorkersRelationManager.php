@@ -18,6 +18,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -36,6 +37,7 @@ class DailyWorkersRelationManager extends RelationManager
                     ->required(),
 
                 Select::make('contract_id')
+                    ->required()
                     ->relationship('contract', 'name'),
 
                 DatePicker::make('date')
