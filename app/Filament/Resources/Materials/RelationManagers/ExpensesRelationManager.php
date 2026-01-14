@@ -89,6 +89,8 @@ class ExpensesRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('id')
             ->columns([
+                TextColumn::make('category.name')
+                    ->label('Category'),
                 TextColumn::make('amount')
                     ->money('bdt') // change currency
                     ->label('Amount'),
