@@ -28,7 +28,7 @@ class CategoryCostChart extends ChartWidget
 
     public function getDescription(): ?string
     {
-        return 'Category-wise total cost for ' . strtolower($this->getActiveCostFilterLabel($this->filter)) . '.';
+        return 'Category-wise cost share (%) for ' . strtolower($this->getActiveCostFilterLabel($this->filter)) . '.';
     }
 
     protected function getFilters(): ?array
@@ -49,8 +49,15 @@ class CategoryCostChart extends ChartWidget
             ->limit(10)
             ->get();
 
-        $labels = $rows->map(fn($row) => Str::limit($row->category_name, 24))->all();
         $values = $rows->map(fn($row) => (float) $row->total_amount)->all();
+        $grandTotal = array_sum($values);
+        $labels = $rows->map(function ($row) use ($grandTotal) {
+            $amount = (float) $row->total_amount;
+            $percentage = $grandTotal > 0 ? ($amount / $grandTotal) * 100 : 0;
+            $name = Str::limit($row->category_name, 18);
+
+            return sprintf('%s (%.1f%%)', $name, $percentage);
+        })->all();
 
         return [
             'datasets' => [
