@@ -20,6 +20,8 @@ class Stats extends StatsOverviewWidget
         $project = Auth::user()->currentProject;
 
         $today = now()->toDateString();
+        $last7Start = now()->subDays(6)->toDateString();
+        $last30Start = now()->subDays(29)->toDateString();
 
         $dailyReports = DailyReport::where('project_id', $project->id)->where('date', $today)->get();
 
@@ -37,6 +39,16 @@ class Stats extends StatsOverviewWidget
             })
                 ->description('Today expenses')
                 ->icon(Heroicon::CalendarDays),
+            Stat::make('Last 7 Days Cost', function () use ($last7Start, $today) {
+                return Number::currency(Expense::whereBetween('expense_date', [$last7Start, $today])->sum('amount') ?? 0);
+            })
+                ->description('Total cost in the last 7 days')
+                ->icon(Heroicon::Calendar),
+            Stat::make('Last 30 Days Cost', function () use ($last30Start, $today) {
+                return Number::currency(Expense::whereBetween('expense_date', [$last30Start, $today])->sum('amount') ?? 0);
+            })
+                ->description('Total cost in the last 30 days')
+                ->icon(Heroicon::Calendar),
             Stat::make('Total Workers', function () use ($dailyReports) {
                 return $dailyReports ? $dailyReports->flatMap->dailyWorkers->sum('worker_count') : 0;
             })

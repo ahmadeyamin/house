@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Widgets\Concerns\HasCostDateRange;
 use App\Models\Expense;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
@@ -10,6 +11,7 @@ use Illuminate\Support\Carbon;
 
 class Chart extends ChartWidget
 {
+    use HasCostDateRange;
 
     protected static ?int $sort = 4;
 
@@ -17,13 +19,15 @@ class Chart extends ChartWidget
 
     protected ?string $pollingInterval = null;
 
-    protected ?string $heading = 'Expenses Chart';
+    protected ?string $heading = 'Total Cost Trend';
 
     protected bool $isCollapsible = true;
 
+    public ?string $filter = 'last30days';
+
     public function getDescription(): ?string
     {
-        return 'Expenses chart for the selected filter';
+        return 'Daily total cost for ' . strtolower($this->getActiveCostFilterLabel($this->filter)) . '.';
     }
 
     protected int|string|array $columnSpan = 'full';
@@ -31,38 +35,14 @@ class Chart extends ChartWidget
 
     protected function getFilters(): ?array
     {
-        return [
-            'month' => 'Last month',
-            'today' => 'Today',
-            'week' => 'Last week',
-            'year' => 'This year',
-        ];
+        return $this->getCostDateFilters();
     }
 
     protected function getData(): array
     {
+        [$start, $end] = $this->getCostDateRange($this->filter);
 
-        $activeFilter = $this->filter;
-
-        $start = now()->startOfMonth();
-        $end = now()->endOfMonth();
-
-        if ($activeFilter === 'week') {
-            $start = now()->startOfWeek();
-            $end = now()->endOfWeek();
-        } elseif ($activeFilter === 'month') {
-            $start = now()->startOfMonth();
-            $end = now()->endOfMonth();
-        } elseif ($activeFilter === 'year') {
-            $start = now()->startOfYear();
-            $end = now()->endOfYear();
-        } elseif ($activeFilter === 'today') {
-            $start = now()->startOfDay();
-            $end = now()->endOfDay();
-        }
-
-
-        $data = Trend::model(Expense::class)
+        $trendData = Trend::model(Expense::class)
             ->between(
                 start: $start,
                 end: $end,
@@ -71,14 +51,19 @@ class Chart extends ChartWidget
             ->perDay()
             ->sum('amount');
 
+        $totalCost = $trendData->sum(fn(TrendValue $value) => (float) $value->aggregate);
+
         return [
             'datasets' => [
                 [
-                    'label' => 'Amount',
-                    'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
+                    'label' => 'Total cost (' . number_format($totalCost, 2) . ' BDT)',
+                    'data' => $trendData->map(fn(TrendValue $value) => $value->aggregate),
+                    'borderColor' => '#0f766e',
+                    'backgroundColor' => 'rgba(15, 118, 110, 0.16)',
+                    'fill' => true,
                 ],
             ],
-            'labels' => $data->map(fn(TrendValue $value) => Carbon::parse($value->date)->format('M d, y')),
+            'labels' => $trendData->map(fn(TrendValue $value) => Carbon::parse($value->date)->format('M d, y')),
         ];
     }
 
@@ -97,10 +82,16 @@ class Chart extends ChartWidget
             ],
             'elements' => [
                 'line' => [
-                    'tension' => 0.4,
+                    'tension' => 0.35,
                 ],
                 'point' => [
-                    'borderRadius' => 5,
+                    'radius' => 3,
+                    'hoverRadius' => 5,
+                ],
+            ],
+            'scales' => [
+                'y' => [
+                    'beginAtZero' => true,
                 ],
             ],
         ];
